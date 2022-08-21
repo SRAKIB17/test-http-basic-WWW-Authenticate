@@ -7,39 +7,7 @@ var fs = require('fs');
 const app = express()
 app.use(express.json())
 
-app.post('/', (req, res) => {
 
-    const userpass = Buffer.from(
-        (req.headers.authorization || '').split(' ')[1] || '',
-        'base64'
-    ).toString();
-
-    if (userpass) {
-        const body = req.body || ''
-
-        const data = JSON.stringify(body)
-
-        fs.writeFile('db.json', data, function (err) {
-
-            if (err) {
-                return console.error(err);
-            }
-
-            fs.readFile('db.json', function (err, data) {
-                if (err) {
-                    return console.error(err);
-                }
-                return res.end(data?.toString());
-            });
-        });
-        console.log(userpass)
-        return res.send('You are in! Yay!!');
-    }
-
-
-    res.writeHead(401, { 'WWW-Authenticate': 'Basic' });
-    res.end('HTTP Error 401 Unauthorized: Access is denied');
-})
 
 
 app.get('/', async (req, res) => {
@@ -65,13 +33,27 @@ app.get('/', async (req, res) => {
     res.end('HTTP Error 401 Unauthorized: Access is denied');
 })
 
-app.get('/fs', (req, res) => {
-    fs.readFile('db.json', function (err, data) {
+app.get('/fs', async (req, res) => {
+    fs.open('db.json', 'r+', function (err, fd) {
         if (err) {
             return console.error(err);
         }
-        return res.end(data?.toString());
-    });
+        const data = {
+            name: "rakib",
+        }
+
+        fs.read(fd, (err, length, d) => {
+
+            fs.write(fd, "," + JSON.stringify(data) + ']', length - 1, (err, date, mData) => {
+                // console.log(date)
+                // console.log(mData)
+            })
+            console.log(d.toString())
+            return res.send(d?.toString());
+        })
+
+
+    })
 })
 
 
