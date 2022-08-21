@@ -23,6 +23,53 @@ app.get('/', (req, res) => {
     }
 })
 
+
+
+
+app.get('/fs', (req, res) => {
+    // Node.js program to demonstrate
+    // the fs.readFile() method
+
+    // Include fs module
+    var fs = require('fs');
+
+    // Use fs.readFile() method to read the file
+    // const read = fs.readFileSync('demo.json', 'w+');
+    // console.log(JSON.stringify(read))
+
+
+
+    const open = fs.openSync('demo.json', "a+");
+
+    var buf = new Buffer(1024);
+
+
+    fs.open('input.txt', 'a+', function (err, fd) {
+        if (err) {
+            return console.error(err);
+        }
+    
+
+        fs.read(fd, buf, 0, buf.length, 0, function (err, bytes) {
+            if (err) {
+                console.log(err);
+            }
+
+            return res.end(bytes.toString());
+            // Print only read bytes to avoid junk.
+
+        });
+    });
+
+
+})
+// ('demo.txt', 'w+', function (err, f) {
+//     if (err) {
+//         return console.error(err);
+//     }
+//     console.log(f);
+//     console.log("File opened!!");
+// });
 app.listen(port, () => {
     console.log('running port')
 })
