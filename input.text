@@ -1,0 +1,3 @@
+
+    path: It is a string, Buffer, URL, or file description integer that denotes the path of the file where it has to be written. Using a file descriptor will make it behave similarly to fs.write() method.
+    

@@ -26,51 +26,31 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/fs', (req, res) => {
-    // Node.js program to demonstrate
-    // the fs.readFile() method
+app.get('/fs', async (req, res) => {
 
-    // Include fs module
     var fs = require('fs');
 
-    // Use fs.readFile() method to read the file
-    // const read = fs.readFileSync('demo.json', 'w+');
-    // console.log(JSON.stringify(read))
 
-
-
-    const open = fs.openSync('demo.json', "a+");
-
-    var buf = new Buffer(1024);
-
-
-    fs.open('input.txt', 'a+', function (err, fd) {
+    const data = `
+    path: It is a string, Buffer, URL, or file description integer that denotes the path of the file where it has to be written. Using a file descriptor will make it behave similarly to fs.write() method.
+    `
+    fs.writeFile('input.txt', data, function (err, data) {
+    
         if (err) {
             return console.error(err);
         }
-    
 
-        fs.read(fd, buf, 0, buf.length, 0, function (err, bytes) {
+
+        fs.readFile('input.txt', function (err, data) {
             if (err) {
-                console.log(err);
+                return console.error(err);
             }
-
-            return res.end(bytes.toString());
-            // Print only read bytes to avoid junk.
-
+            return res.end(data?.toString());
         });
     });
 
-
 })
-// ('demo.txt', 'w+', function (err, f) {
-//     if (err) {
-//         return console.error(err);
-//     }
-//     console.log(f);
-//     console.log("File opened!!");
-// });
+
 app.listen(port, () => {
     console.log('running port')
 })
-// http://rakiblIslam@localhost:5000/
