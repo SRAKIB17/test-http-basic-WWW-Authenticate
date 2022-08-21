@@ -1,10 +1,10 @@
 const express = require('express');
 
-const port = 5000 || process.env.PORT;
+const port = process.env.PORT || 5000;
 
 
 const app = express()
-
+app.use(express.json())
 
 app.get('/', (req, res) => {
 
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
     // else {
     //     return res.end('You are in! Yay!!');
     // }
-    return res.end('You are in! Yay!!');
+    res.end('You are in! Yay!!');
 })
 
 app.listen(port, () => {
