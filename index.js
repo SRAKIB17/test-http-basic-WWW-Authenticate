@@ -1,6 +1,7 @@
 const express = require('express');
 
 const port = process.env.PORT || 5000;
+var fs = require('fs');
 
 
 const app = express()
@@ -23,12 +24,18 @@ app.get('/', (req, res) => {
     }
 })
 
-
+app.get('/fs', (req, res) => {
+    fs.readFile('db.json', function (err, data) {
+        if (err) {
+            return console.error(err);
+        }
+        return res.end(data?.toString());
+    });
+})
 
 
 app.post('/fs', async (req, res) => {
 
-    var fs = require('fs');
     const body = req.body || ''
 
     const data = JSON.stringify(body)
