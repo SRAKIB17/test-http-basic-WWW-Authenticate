@@ -26,22 +26,20 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/fs', async (req, res) => {
+app.post('/fs', async (req, res) => {
 
     var fs = require('fs');
+    const body = req.body || ''
 
+    const data = JSON.stringify(body)
 
-    const data = `
-    path: It is a string, Buffer, URL, or file description integer that denotes the path of the file where it has to be written. Using a file descriptor will make it behave similarly to fs.write() method.
-    `
-    fs.writeFile('input.txt', data, function (err, data) {
-    
+    fs.writeFile('db.json', data, function (err) {
+
         if (err) {
             return console.error(err);
         }
 
-
-        fs.readFile('input.txt', function (err, data) {
+        fs.readFile('db.json', function (err, data) {
             if (err) {
                 return console.error(err);
             }
